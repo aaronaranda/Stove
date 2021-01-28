@@ -40,12 +40,18 @@ public class Burner {
 		switch(mySetting) {
 		case HIGH:
 			this.mySetting = Setting.MEDIUM;
+			timer = TIME_DURATION;
 			break;
 		case MEDIUM:
 			this.mySetting = Setting.LOW;
+			timer = TIME_DURATION;
 			break;
 		case LOW:
 			this.mySetting = Setting.OFF;
+			timer = TIME_DURATION;
+			break;
+		case OFF:
+			timer = TIME_DURATION;
 			break;
 		}
 	}
@@ -56,7 +62,25 @@ public class Burner {
 	}
 
 	public void updateTemperature() {
-		// TODO Auto-generated method stub
+		if (timer != 0){
+			timer = timer -1;
+		}
+		else {
+			switch(mySetting) {
+			case OFF:
+				this.myTemperature = Temperature.COLD;
+				break;
+			case LOW:
+				this.myTemperature = Temperature.WARM;
+				break;
+			case MEDIUM:
+				this.myTemperature = Temperature.HOT;
+				break;
+			case HIGH:
+				this.myTemperature = Temperature.BLAZING;
+				break;
+			}
+		}
 		
 	}
 
