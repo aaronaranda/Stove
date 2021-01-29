@@ -1,3 +1,4 @@
+//Authors: Aaron Aranda and Lauren Loe
 public class Burner {
 	private enum Temperature {
 		BLAZING, HOT, WARM, COLD		
@@ -6,8 +7,9 @@ public class Burner {
 	private Setting mySetting;
 	private int timer;
 	public final static int TIME_DURATION = 2;
-	private boolean redlight = false;
 	
+	
+	//Return the current temperature of a particular burner. 
 	public String getMyTemperature() {
 		switch(myTemperature) {
 		case COLD:
@@ -73,12 +75,86 @@ public class Burner {
 	
 	//Update the temperature based on the timer. 
 	public void updateTemperature() {
+		boolean up = false;
+		boolean down = false;
+		boolean atTemp = false;
+		timer = timer -1;
 		if (timer != 0){
-			timer = timer -1;
+			return;
 		}
 		else {
-			if(mySetting == Setting.OFF && myTemperature == Temperature.WARM)
-			if() {
+			
+			//logic for determining if the stove temperature should go up, down, or remain the same.
+			switch(mySetting) {
+			case OFF:
+				switch(myTemperature) {
+				case COLD:
+					atTemp = true;
+					break;
+				case WARM:
+					down = true;
+					break;
+				case HOT:
+					down = true;
+					break;
+				case BLAZING:
+					down = true;
+					break;
+				}
+				break;
+			case LOW:
+				switch(myTemperature) {
+				case COLD:
+					up = true;
+					break;
+				case WARM:
+					atTemp = true;
+					break;
+				case HOT:
+					down = true;
+					break;
+				case BLAZING:
+					down = true;
+					break;
+				}
+				break;
+			case MEDIUM:
+				switch(myTemperature) {
+				case COLD:
+					up = true;
+					break;
+				case WARM:
+					up = true;
+					break;
+				case HOT:
+					atTemp = true;
+					break;
+				case BLAZING:
+					down = true;
+					break;
+				}
+				break;
+			case HIGH:
+				switch(myTemperature) {
+				case COLD:
+					up = true;
+					break;
+				case WARM:
+					up = true;
+					break;
+				case HOT:
+					up = true;
+					break;
+				case BLAZING:
+					atTemp = true;
+					break;
+				}
+				break;
+			
+			}
+			
+			//updates temperature
+			if(up) {
 			switch(myTemperature) {
 			case COLD:
 				this.myTemperature = Temperature.WARM;
@@ -90,22 +166,57 @@ public class Burner {
 				this.myTemperature = Temperature.BLAZING;
 				break;
 			case BLAZING:
-				this.redlight = true;
 				break;
 			}
 			}
-		}
+			else if (down) {
+				switch(myTemperature) {
+				case COLD:
+					break;
+				case WARM:
+					this.myTemperature = Temperature.COLD;
+					break;
+				case HOT:
+					this.myTemperature = Temperature.WARM;
+					break;
+				case BLAZING:
+					this.myTemperature = Temperature.HOT;
+					break;
+			}
 		
+			}
+			if(!atTemp) {
+				timer = TIME_DURATION;
+			}
+		}
 	}
+	
 	
 	//Display the state of the burner. 
 	public String display() {
-		return this.mySetting.toString();
+		String status = "";
+		switch(myTemperature) {
+		
+		case COLD:
+			status = ".....cooool";
+			break;
+		case WARM:
+			status = ".....warm";
+			break;
+		case HOT:
+			status = ".....CAREFUL";
+			break;
+		case BLAZING:
+			status = ".....VERY HOT! DON'T TOUCH!";
+			break;
+		default:
+			break;
+		
+		}
+		return "[" + mySetting + "]" + status;
 	}
 	
-	public boolean redLightOn() {
-		return this.redlight;
-	}
+
 	
 	
 
