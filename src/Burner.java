@@ -6,9 +6,21 @@ public class Burner {
 	private Setting mySetting;
 	private int timer;
 	public final static int TIME_DURATION = 2;
+	private boolean redlight = false;
 	
-	public Temperature getMyTemperature() {
-		return myTemperature;
+	public String getMyTemperature() {
+		switch(myTemperature) {
+		case COLD:
+			return "COLD";
+		case WARM:
+			return "WARM";
+		case HOT:
+			return "HOT";
+		case BLAZING:
+			return "BLAZING";					
+		default:
+			return " ";
+		}
 	}
 
 	public Burner() {
@@ -16,6 +28,8 @@ public class Burner {
 		this.mySetting = Setting.OFF;
 	}
 	
+	
+	//Increase the burner setting
 	public void plusButton() {
 		switch(mySetting) {
 		case OFF:
@@ -36,6 +50,7 @@ public class Burner {
 		}
 	}
 	
+	//Decrease the burner setting
 	public void minusButton() {
 		switch(mySetting) {
 		case HIGH:
@@ -56,32 +71,42 @@ public class Burner {
 		}
 	}
 	
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-		
-	}
-
+	//Update the temperature based on the timer. 
 	public void updateTemperature() {
 		if (timer != 0){
 			timer = timer -1;
 		}
 		else {
-			switch(mySetting) {
-			case OFF:
-				this.myTemperature = Temperature.COLD;
-				break;
-			case LOW:
+			if(mySetting == Setting.OFF && myTemperature == Temperature.WARM)
+			if() {
+			switch(myTemperature) {
+			case COLD:
 				this.myTemperature = Temperature.WARM;
 				break;
-			case MEDIUM:
+			case WARM:
 				this.myTemperature = Temperature.HOT;
 				break;
-			case HIGH:
+			case HOT:
 				this.myTemperature = Temperature.BLAZING;
 				break;
+			case BLAZING:
+				this.redlight = true;
+				break;
+			}
 			}
 		}
 		
 	}
+	
+	//Display the state of the burner. 
+	public String display() {
+		return this.mySetting.toString();
+	}
+	
+	public boolean redLightOn() {
+		return this.redlight;
+	}
+	
+	
 
 }

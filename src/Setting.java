@@ -8,6 +8,21 @@ public enum Setting {
 	}
 	
 	public String toString() {
-		return setting;
+		if (setting == "---") {
+			return "[" + setting + "]" + ".....cooool";
+		}
+		else if (setting == "--+") {
+			return "[" + setting + "]" + ".....warm";
+		}
+		else if (setting == "-++") {
+			return "[" + setting + "]" + ".....CAREFUL";
+		}
+		else if (setting == "+++") {
+			return "[" + setting + "]" + ".....VERY HOT! DON'T TOUCH!";
+		}
+		else {
+			return "";
+		}
+		
 	}
 }
